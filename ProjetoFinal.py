@@ -332,7 +332,7 @@ def matthews_correlation_coefficient(y_true, y_pred):
 
     return numerator / (denominator + K.epsilon())
 
-def regression_plot(y_true,y_pred):
+def regression_plot(name, y_true,y_pred):
     """
     Function that graphs a scatter plot and the respective regression line to 
     evaluate the QSAR models.
@@ -350,7 +350,7 @@ def regression_plot(y_true,y_pred):
     ax.set_xlabel('True')
     ax.set_ylabel('Predicted')
     plt.show()
-    fig.savefig('regression.png')
+    fig.savefig(f'{name}.png')
 
 
 #create model
@@ -556,7 +556,7 @@ for tokenizemethod in ['Dictionary', 'TfidfVectorizer']:
             print(predictions)
             print(prediction_2)
             
-            regression_plot(test_labels , predictions)
+            regression_plot(f"regression_{file_path.split('/')[-1].split('.')[0]}_{tokenizemethod}_{dropout}_{normmethods[normal]}", test_labels , predictions)
             
             # Model's evaluation with the test set
             loss, eval_mean_squared_error, eval_coefficient_of_determination, eval_matthews_correlation_coefficient, eval_concordance_correlation_coefficient = bestmodel.evaluate(tokenized_test_smiles, test_labels) 
