@@ -80,7 +80,7 @@ def dataextracting(filepath):
         rawsmiles = []
         rawlabels = []
 
-        idxlabels = 3
+        idxlabels = 3 #change according to pIC50 collumn in .csv file
 
         for row in it:
             try:
