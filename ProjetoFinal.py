@@ -527,12 +527,14 @@ for tokenizemethod in ['Dictionary', 'TfidfVectorizer']:
             #normalize test labels
             test_labels = data[3]
 
+            if normal == 0:
+                n_test_labels = test_labels
             if normal == 1:
-                test_labels = bestscaler.transform(test_labels.reshape(-1,1))
+                n_test_labels = bestscaler.transform(test_labels.reshape(-1,1))
             if normal == 2 or normal == 3:
-                test_labels = besttransformer.transform(test_labels.reshape(-1,1))
+                n_test_labels = besttransformer.transform(test_labels.reshape(-1,1))
             if normal == 4:
-                test_labels = Winsorization(test_labels)    
+                n_test_labels = Winsorization(test_labels)    
 
             #prediction
             predictions = bestmodel.predict(tokenized_test_smiles)
@@ -559,7 +561,7 @@ for tokenizemethod in ['Dictionary', 'TfidfVectorizer']:
             regression_plot(f"regression_{file_path.split('/')[-1].split('.')[0]}_{tokenizemethod}_{dropout}_{normmethods[normal]}", test_labels , predictions)
             
             # Model's evaluation with the test set
-            loss, eval_mean_squared_error, eval_coefficient_of_determination, eval_matthews_correlation_coefficient, eval_concordance_correlation_coefficient = bestmodel.evaluate(tokenized_test_smiles, test_labels) 
+            loss, eval_mean_squared_error, eval_coefficient_of_determination, eval_matthews_correlation_coefficient, eval_concordance_correlation_coefficient = bestmodel.evaluate(tokenized_test_smiles, n_test_labels) 
             print(f'\nLoss: {loss}, RMSE: {eval_mean_squared_error}')
 
             with open("resultsfile.txt", 'a') as resultfilestxt:
